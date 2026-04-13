@@ -6,53 +6,94 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 
-
-<div class="game-container">
-
-    <h2>스도쿠</h2>
-
-    @* 난이도 선택 *@
-    <div class="difficulty-buttons">
-        <button class="@(difficulty == "초급" ? "active" : "")" 
-                @onclick='() => StartGame("초급")'>초급</button>
-        <button class="@(difficulty == "중급" ? "active" : "")" 
-                @onclick='() => StartGame("중급")'>중급</button>
-        <button class="@(difficulty == "고급" ? "active" : "")" 
-                @onclick='() => StartGame("고급")'>고급</button>
+@* 가짜 업무 화면 *@
+<div id="fake-work" style="display:none;" @onclick="Undisguise">
+    <div class="fake-header">
+        <span>📊 Work Dashboard</span>
+        <span style="font-size:11px; color:#555;">클릭하면 돌아가기</span>
     </div>
+    <div class="fake-content">
+        <div class="fake-sidebar">
+            <div class="fake-menu active">📋 Weekly Report</div>
+            <div class="fake-menu">📁 Documents</div>
+            <div class="fake-menu">📧 Messages</div>
+            <div class="fake-menu">📅 Schedule</div>
+            <div class="fake-menu">⚙️ Settings</div>
+        </div>
+        <div class="fake-main">
+            <div class="fake-toolbar">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>Insert</span>
+                <span>Format</span>
+                <span>Tools</span>
+            </div>
+            <div class="fake-table-wrap">
+                <table class="fake-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Task</th>
+                            <th>Assignee</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>001</td><td>Q1 Report Review</td><td>Kim</td><td class="status done">Done</td><td>2026-04-01</td><td class="priority high">High</td></tr>
+                        <tr><td>002</td><td>API Integration</td><td>Lee</td><td class="status progress">In Progress</td><td>2026-04-15</td><td class="priority high">High</td></tr>
+                        <tr><td>003</td><td>UI Redesign</td><td>Park</td><td class="status progress">In Progress</td><td>2026-04-20</td><td class="priority mid">Mid</td></tr>
+                        <tr><td>004</td><td>DB Migration</td><td>Choi</td><td class="status todo">Todo</td><td>2026-04-25</td><td class="priority mid">Mid</td></tr>
+                        <tr><td>005</td><td>Security Audit</td><td>Jung</td><td class="status todo">Todo</td><td>2026-04-30</td><td class="priority low">Low</td></tr>
+                        <tr><td>006</td><td>Performance Test</td><td>Kim</td><td class="status todo">Todo</td><td>2026-05-05</td><td class="priority low">Low</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-    @* 스도쿠 보드 *@
-    @if (board != null)
-    {
-        <SudokuGrid Board="board" OnCellClick="HandleCellClick" />
+@* 실제 스도쿠 *@
+<div id="sudoku-app">
+    <div class="game-container">
+        <h2>S U D O K U</h2>
 
-        @* 숫자 입력 패드 *@
-        <div class="numpad">
-            @for (int i = 1; i <= 9; i++)
-            {
-                int num = i;
-                <button class="num-button" @onclick="() => InputNumber(num)">@num</button>
-            }
-            <button class="num-button erase" @onclick="EraseCell">지우기</button>
+        <div class="difficulty-buttons">
+            <button class="@(difficulty == "초급" ? "active" : "")"
+                    @onclick='() => StartGame("초급")'>초급</button>
+            <button class="@(difficulty == "중급" ? "active" : "")"
+                    @onclick='() => StartGame("중급")'>중급</button>
+            <button class="@(difficulty == "고급" ? "active" : "")"
+                    @onclick='() => StartGame("고급")'>고급</button>
         </div>
 
-        @* 액션 버튼 *@
-        <div class="action-buttons">
-            <button @onclick="CheckAnswer">정답 확인</button>
-            <button @onclick="SharePuzzle">🔗 공유</button>
-            <button @onclick='() => StartGame(difficulty)'>새 게임</button>
-        </div>
-
-        @* 상태 메시지 *@
-        @if (!string.IsNullOrEmpty(message))
+        @if (board != null)
         {
-            <p class="message @messageClass">@message</p>
+            <SudokuGrid Board="board" OnCellClick="HandleCellClick" />
+
+            <div class="numpad">
+                @for (int i = 1; i <= 9; i++)
+                {
+                    int num = i;
+                    <button class="num-button" @onclick="() => InputNumber(num)">@num</button>
+                }
+                <button class="num-button erase" @onclick="EraseCell">지우기</button>
+            </div>
+
+            <div class="action-buttons">
+                <button @onclick="CheckAnswer">정답 확인</button>
+                <button @onclick="SharePuzzle">🔗 공유</button>
+                <button @onclick='() => StartGame(difficulty)'>새 게임</button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <p class="message @messageClass">@message</p>
+            }
         }
-    }
-    else
-    {
-        <p>난이도를 선택해서 게임을 시작하세요!</p>
-    }
+    </div>
 </div>
 
 @code {
@@ -63,12 +104,17 @@
     private string message = "";
     private string messageClass = "";
 
+    private async Task Undisguise()
+    {
+        await JSRuntime.InvokeVoidAsync("undisguise");
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("addKeyboardListener", 
+            await JSRuntime.InvokeVoidAsync("addKeyboardListener",
                 DotNetObjectReference.Create(this));
+            await JSRuntime.InvokeVoidAsync("addEscapeListener");
         }
     }
     [JSInvokable]

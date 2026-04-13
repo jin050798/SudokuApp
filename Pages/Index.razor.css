@@ -1,105 +1,200 @@
-body {
-    background: #111 !important;
+/* ── 위장 화면 ── */
+#fake-work {
+    font-family: 'Segoe UI', sans-serif;
+    background: #1e1e1e;
+    min-height: 100vh;
+    color: #cccccc;
+    font-size: 13px;
+}
+
+.fake-header {
+    background: #323233;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #111;
+}
+
+.fake-content {
+    display: flex;
+    height: calc(100vh - 33px);
+}
+
+.fake-sidebar {
+    width: 180px;
+    background: #252526;
+    border-right: 1px solid #111;
+    padding: 8px 0;
+}
+
+.fake-menu {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: #bbb;
+    font-size: 13px;
+}
+
+.fake-menu:hover {
+    background: #2a2d2e;
+}
+
+.fake-menu.active {
+    background: #37373d;
+    color: #fff;
+}
+
+.fake-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.fake-toolbar {
+    background: #2d2d2d;
+    padding: 4px 12px;
+    display: flex;
+    gap: 16px;
+    color: #ccc;
+    font-size: 12px;
+    border-bottom: 1px solid #111;
+}
+
+.fake-table-wrap {
+    padding: 16px;
+    overflow: auto;
+}
+
+.fake-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.fake-table th {
+    background: #252526;
+    padding: 8px 12px;
+    text-align: left;
+    color: #888;
+    border-bottom: 1px solid #333;
+    font-weight: 400;
+}
+
+.fake-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #2a2a2a;
     color: #ccc;
 }
 
+.fake-table tr:hover td {
+    background: #2a2d2e;
+}
+
+.status {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.status.done { background: #1b4332; color: #6fcf97; }
+.status.progress { background: #1a3a5c; color: #56b3f4; }
+.status.todo { background: #2d2d2d; color: #888; }
+
+.priority { font-size: 11px; }
+.priority.high { color: #f47174; }
+.priority.mid { color: #dcdcaa; }
+.priority.low { color: #888; }
+
+/* ── 스도쿠 화면 ── */
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    padding: 1.5rem;
     gap: 1rem;
-    background: #111;
+    background: #1e1e1e;
     min-height: 100vh;
     color: #ccc;
 }
 
 .game-container h2 {
-    color: #aaa;
+    color: #569cd6;
     font-weight: 400;
-    letter-spacing: 4px;
-    font-size: 14px;
-    text-transform: uppercase;
+    letter-spacing: 6px;
+    font-size: 13px;
 }
 
 .difficulty-buttons {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .difficulty-buttons button {
-    padding: 6px 16px;
-    border: 1px solid #444;
-    border-radius: 4px;
+    padding: 5px 14px;
+    border: 1px solid #3c3c3c;
+    border-radius: 3px;
     cursor: pointer;
-    background: #1a1a1a;
-    color: #aaa;
-    font-size: 13px;
+    background: #252526;
+    color: #9cdcfe;
+    font-size: 12px;
 }
 
 .difficulty-buttons button.active {
-    background: #333;
-    color: #eee;
-    border-color: #666;
+    background: #37373d;
+    color: #ffffff;
+    border-color: #007acc;
 }
 
 .numpad {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-    width: 280px;
+    gap: 5px;
+    width: 260px;
 }
 
 .num-button {
-    height: 44px;
-    font-size: 16px;
-    border: 1px solid #333;
-    border-radius: 4px;
+    height: 42px;
+    font-size: 15px;
+    border: 1px solid #3c3c3c;
+    border-radius: 3px;
     cursor: pointer;
-    background: #1a1a1a;
-    color: #bbb;
+    background: #252526;
+    color: #b5cea8;
 }
 
 .num-button:hover {
-    background: #2a2a2a;
-    color: #eee;
+    background: #2a2d2e;
+    color: #fff;
 }
 
 .num-button.erase {
-    font-size: 12px;
-    color: #888;
+    font-size: 11px;
+    color: #808080;
 }
 
 .action-buttons {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .action-buttons button {
-    padding: 7px 16px;
-    border: 1px solid #444;
-    border-radius: 4px;
+    padding: 6px 14px;
+    border: 1px solid #3c3c3c;
+    border-radius: 3px;
     cursor: pointer;
-    background: #1a1a1a;
-    color: #aaa;
-    font-size: 13px;
+    background: #252526;
+    color: #9cdcfe;
+    font-size: 12px;
 }
 
 .action-buttons button:hover {
-    background: #2a2a2a;
-    color: #eee;
+    background: #37373d;
+    color: #fff;
 }
 
 .message {
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 12px;
     letter-spacing: 1px;
 }
 
-.message.success {
-    color: #6a9e6a;
-}
-
-.message.error {
-    color: #a05050;
-}
+.message.success { color: #6a9955; }
+.message.error { color: #f44747; }
