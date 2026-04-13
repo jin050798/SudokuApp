@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Publish
-        run: dotnet publish SudokuApp/SudokuApp.csproj -c Release -o release
+        run: dotnet publish SudokuApp.csproj -c Release -o release
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
