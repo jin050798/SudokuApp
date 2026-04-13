@@ -198,3 +198,19 @@
 
 .message.success { color: #6a9955; }
 .message.error { color: #f44747; }
+
+.memo-toggle button {
+    padding: 6px 14px;
+    border: 1px solid #3c3c3c;
+    border-radius: 3px;
+    cursor: pointer;
+    background: #252526;
+    color: #808080;
+    font-size: 12px;
+}
+
+.memo-toggle button.active {
+    border-color: #dcdcaa;
+    color: #dcdcaa;
+    background: #2d2d00;
+}

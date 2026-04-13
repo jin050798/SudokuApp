@@ -73,6 +73,12 @@
         {
             <SudokuGrid Board="board" OnCellClick="HandleCellClick" />
 
+            <div class="memo-toggle">
+                <button class="@(isMemoMode ? "active" : "")" 
+                        @onclick="ToggleMemo">
+                    ✏️ 메모 @(isMemoMode ? "ON" : "OFF")
+                </button>
+            </div>
             <div class="numpad">
                 @for (int i = 1; i <= 9; i++)
                 {
@@ -103,6 +109,51 @@
     private int selectedCol = -1;
     private string message = "";
     private string messageClass = "";
+
+    private bool isMemoMode = false;
+
+    private void ToggleMemo()
+    {
+        isMemoMode = !isMemoMode;
+    }
+
+    // InputNumber 메서드 교체
+    private void InputNumber(int num)
+    {
+        if (selectedRow < 0 || selectedCol < 0 || board == null) return;
+        var cell = board.Cells[selectedRow, selectedCol];
+        if (cell.IsGiven) return;
+
+        if (isMemoMode)
+        {
+            // 메모 모드 - 토글 방식
+            if (cell.Memo.Contains(num))
+                cell.Memo.Remove(num);
+            else
+                cell.Memo.Add(num);
+        }
+        else
+        {
+            // 일반 모드 - 숫자 입력 & 메모 초기화
+            cell.Value = num;
+            cell.Memo.Clear();
+            cell.IsError = false;
+            message = "";
+        }
+    }
+
+    // EraseCell 메서드 교체
+    private void EraseCell()
+    {
+        if (selectedRow < 0 || selectedCol < 0 || board == null) return;
+        var cell = board.Cells[selectedRow, selectedCol];
+        if (cell.IsGiven) return;
+
+        cell.Value = 0;
+        cell.Memo.Clear();
+        cell.IsError = false;
+        message = "";
+    }
 
     private async Task Undisguise()
     {
@@ -188,30 +239,6 @@
         selectedRow = pos.row;
         selectedCol = pos.col;
         board!.Cells[selectedRow, selectedCol].IsSelected = true;
-    }
-
-    // 숫자 입력
-    private void InputNumber(int num)
-    {
-        if (selectedRow < 0 || selectedCol < 0 || board == null) return;
-        var cell = board.Cells[selectedRow, selectedCol];
-        if (cell.IsGiven) return;
-
-        cell.Value = num;
-        cell.IsError = false;
-        message = "";
-    }
-
-    // 지우기
-    private void EraseCell()
-    {
-        if (selectedRow < 0 || selectedCol < 0 || board == null) return;
-        var cell = board.Cells[selectedRow, selectedCol];
-        if (cell.IsGiven) return;
-
-        cell.Value = 0;
-        cell.IsError = false;
-        message = "";
     }
 
     // 정답 확인
