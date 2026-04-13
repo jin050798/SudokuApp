@@ -58,6 +58,23 @@
 .sudoku-cell.user[b-aysax7s5f8] {
     color: #4ec9b0;  /* VSCode 청록색 */
 }
+
+.memo-grid[b-aysax7s5f8] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    height: 100%;
+    padding: 1px;
+}
+
+.memo-num[b-aysax7s5f8] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #808080;
+    line-height: 1;
+}
 /* /Layout/MainLayout.razor.rz.scp.css */
 .page[b-qxmeuwiffk] {
     background: #111;
@@ -458,3 +475,19 @@ body[b-2iskr4bpte] {
 
 .message.success[b-5kt4eb9xci] { color: #6a9955; }
 .message.error[b-5kt4eb9xci] { color: #f44747; }
+
+.memo-toggle button[b-5kt4eb9xci] {
+    padding: 6px 14px;
+    border: 1px solid #3c3c3c;
+    border-radius: 3px;
+    cursor: pointer;
+    background: #252526;
+    color: #808080;
+    font-size: 12px;
+}
+
+.memo-toggle button.active[b-5kt4eb9xci] {
+    border-color: #dcdcaa;
+    color: #dcdcaa;
+    background: #2d2d00;
+}
