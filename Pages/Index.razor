@@ -1,0 +1,207 @@
+@page "/"
+@using SudokuApp.Models
+@using SudokuApp.Components
+@using SudokuApp.Services
+@inject SudokuService SudokuService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+
+<div class="game-container">
+
+    <h2>스도쿠</h2>
+
+    @* 난이도 선택 *@
+    <div class="difficulty-buttons">
+        <button class="@(difficulty == "초급" ? "active" : "")" 
+                @onclick='() => StartGame("초급")'>초급</button>
+        <button class="@(difficulty == "중급" ? "active" : "")" 
+                @onclick='() => StartGame("중급")'>중급</button>
+        <button class="@(difficulty == "고급" ? "active" : "")" 
+                @onclick='() => StartGame("고급")'>고급</button>
+    </div>
+
+    @* 스도쿠 보드 *@
+    @if (board != null)
+    {
+        <SudokuGrid Board="board" OnCellClick="HandleCellClick" />
+
+        @* 숫자 입력 패드 *@
+        <div class="numpad">
+            @for (int i = 1; i <= 9; i++)
+            {
+                int num = i;
+                <button class="num-button" @onclick="() => InputNumber(num)">@num</button>
+            }
+            <button class="num-button erase" @onclick="EraseCell">지우기</button>
+        </div>
+
+        @* 액션 버튼 *@
+        <div class="action-buttons">
+            <button @onclick="CheckAnswer">정답 확인</button>
+            <button @onclick="SharePuzzle">🔗 공유</button>
+            <button @onclick='() => StartGame(difficulty)'>새 게임</button>
+        </div>
+
+        @* 상태 메시지 *@
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <p class="message @messageClass">@message</p>
+        }
+    }
+    else
+    {
+        <p>난이도를 선택해서 게임을 시작하세요!</p>
+    }
+</div>
+
+@code {
+    private SudokuBoard? board;
+    private string difficulty = "중급";
+    private int selectedRow = -1;
+    private int selectedCol = -1;
+    private string message = "";
+    private string messageClass = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("addKeyboardListener", 
+                DotNetObjectReference.Create(this));
+        }
+    }
+    [JSInvokable]
+    public void HandleKeyPress(string key)
+    {
+        // 숫자 입력
+        if (int.TryParse(key, out int num) && num >= 1 && num <= 9)
+        {
+            InputNumber(num);
+        }
+
+        // 지우기
+        if (key == "Backspace" || key == "Delete")
+        {
+            EraseCell();
+        }
+
+        // 방향키 이동
+        if (selectedRow >= 0 && selectedCol >= 0)
+        {
+            switch (key)
+            {
+                case "ArrowUp":
+                    if (selectedRow > 0) HandleCellClick((selectedRow - 1, selectedCol));
+                    break;
+                case "ArrowDown":
+                    if (selectedRow < 8) HandleCellClick((selectedRow + 1, selectedCol));
+                    break;
+                case "ArrowLeft":
+                    if (selectedCol > 0) HandleCellClick((selectedRow, selectedCol - 1));
+                    break;
+                case "ArrowRight":
+                    if (selectedCol < 8) HandleCellClick((selectedRow, selectedCol + 1));
+                    break;
+            }
+        }
+
+        StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+        // URL에 퍼즐 파라미터 있으면 복원
+        var uri = new Uri(Navigation.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        if (query["puzzle"] != null)
+        {
+            StartGame(difficulty);
+            board = SudokuService.DeserializeBoard(query["puzzle"]!, board!);
+        }
+        else
+        {
+            StartGame(difficulty);
+        }
+    }
+
+    // 게임 시작
+    private void StartGame(string diff)
+    {
+        difficulty = diff;
+        board = SudokuService.GeneratePuzzle(difficulty);
+        selectedRow = -1;
+        selectedCol = -1;
+        message = "";
+        ClearSelection();
+    }
+
+    // 셀 클릭
+    private void HandleCellClick((int row, int col) pos)
+    {
+        ClearSelection();
+        selectedRow = pos.row;
+        selectedCol = pos.col;
+        board!.Cells[selectedRow, selectedCol].IsSelected = true;
+    }
+
+    // 숫자 입력
+    private void InputNumber(int num)
+    {
+        if (selectedRow < 0 || selectedCol < 0 || board == null) return;
+        var cell = board.Cells[selectedRow, selectedCol];
+        if (cell.IsGiven) return;
+
+        cell.Value = num;
+        cell.IsError = false;
+        message = "";
+    }
+
+    // 지우기
+    private void EraseCell()
+    {
+        if (selectedRow < 0 || selectedCol < 0 || board == null) return;
+        var cell = board.Cells[selectedRow, selectedCol];
+        if (cell.IsGiven) return;
+
+        cell.Value = 0;
+        cell.IsError = false;
+        message = "";
+    }
+
+    // 정답 확인
+    private void CheckAnswer()
+    {
+        if (board == null) return;
+        SudokuService.ValidateBoard(board);
+
+        if (SudokuService.IsComplete(board))
+        {
+            message = "🎉 정답입니다!";
+            messageClass = "success";
+        }
+        else
+        {
+            message = "틀린 칸이 있어요. 빨간색을 확인해보세요!";
+            messageClass = "error";
+        }
+    }
+
+    // 공유 링크 생성
+    private async Task SharePuzzle()
+    {
+        if (board == null) return;
+        var encoded = SudokuService.SerializeBoard(board);
+        var url = $"{Navigation.BaseUri}?puzzle={encoded}";
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", url);
+        message = "링크가 복사됐어요!";
+        messageClass = "success";
+    }
+
+    private void ClearSelection()
+    {
+        if (board == null) return;
+        for (int r = 0; r < 9; r++)
+            for (int c = 0; c < 9; c++)
+                board.Cells[r, c].IsSelected = false;
+    }
+}

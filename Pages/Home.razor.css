@@ -1,0 +1,105 @@
+body {
+    background: #111 !important;
+    color: #ccc;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    background: #111;
+    min-height: 100vh;
+    color: #ccc;
+}
+
+.game-container h2 {
+    color: #aaa;
+    font-weight: 400;
+    letter-spacing: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.difficulty-buttons button {
+    padding: 6px 16px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #1a1a1a;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.difficulty-buttons button.active {
+    background: #333;
+    color: #eee;
+    border-color: #666;
+}
+
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    width: 280px;
+}
+
+.num-button {
+    height: 44px;
+    font-size: 16px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #1a1a1a;
+    color: #bbb;
+}
+
+.num-button:hover {
+    background: #2a2a2a;
+    color: #eee;
+}
+
+.num-button.erase {
+    font-size: 12px;
+    color: #888;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-buttons button {
+    padding: 7px 16px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #1a1a1a;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.action-buttons button:hover {
+    background: #2a2a2a;
+    color: #eee;
+}
+
+.message {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.message.success {
+    color: #6a9e6a;
+}
+
+.message.error {
+    color: #a05050;
+}

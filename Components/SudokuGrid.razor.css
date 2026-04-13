@@ -1,0 +1,59 @@
+.sudoku-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.sudoku-grid {
+    display: inline-block;
+    border: 2px solid #555;
+    background: #1a1a1a;
+}
+
+.sudoku-row {
+    display: flex;
+}
+
+.sudoku-cell {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ccc;
+    background: #1a1a1a;
+    transition: background 0.1s;
+}
+
+.sudoku-cell:hover {
+    background: #2a2a2a;
+}
+
+.sudoku-cell.given {
+    font-weight: bold;
+    color: #eee;
+}
+
+.sudoku-cell.selected {
+    background: #2d3a2d;
+    color: #90c090;
+}
+
+.sudoku-cell.error {
+    color: #e05555;
+}
+
+.sudoku-cell.border-right {
+    border-right: 2px solid #555;
+}
+
+.sudoku-cell.border-bottom {
+    border-bottom: 2px solid #555;
+}
+
+.sudoku-cell.user {
+    color: #4ec9b0;  /* VSCode 청록색 */
+}

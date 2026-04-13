@@ -1,0 +1,8 @@
+.page {
+    background: #111;
+    min-height: 100vh;
+}
+
+.content {
+    padding: 0;
+}

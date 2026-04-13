@@ -1,0 +1,31 @@
+@using SudokuApp.Models
+
+<div class="sudoku-container">
+    <div class="sudoku-grid">
+        @for (int row = 0; row < 9; row++)
+        {
+            int r = row;
+            <div class="sudoku-row">
+                @for (int col = 0; col < 9; col++)
+                {
+                    int c = col;
+                    var cell = Board.Cells[r, c];
+                    <div class="sudoku-cell 
+                        @(cell.IsGiven ? "given" : "user")
+                        @(cell.IsSelected ? "selected" : "")
+                        @(cell.IsError ? "error" : "")
+                        @(c == 2 || c == 5 ? "border-right" : "")
+                        @(r == 2 || r == 5 ? "border-bottom" : "")"
+                        @onclick="() => OnCellClick.InvokeAsync((r, c))">
+                        @(cell.Value == 0 ? "" : cell.Value.ToString())
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public SudokuBoard Board { get; set; } = new();
+    [Parameter] public EventCallback<(int row, int col)> OnCellClick { get; set; }
+}
