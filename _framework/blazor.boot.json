@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "SudokuApp",
   "resources": {
-    "hash": "sha256-veIRBgCQMnPbObWWWS/g6ZCExdsSFAMx4R4l4pfk+ac=",
+    "hash": "sha256-aRg8hqA5QIBRxdqVD4OpXdz1+nFf3AxBaU/f7PBiKWw=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.r4jz5cjphk.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.4ijxm3lrf2.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -32,13 +32,13 @@
       "System.Net.Primitives.gvb0nn85ci.wasm": "System.Net.Primitives.wasm",
       "System.Private.Uri.fh5hjd5vb7.wasm": "System.Private.Uri.wasm",
       "System.Runtime.InteropServices.JavaScript.8jdb34iq28.wasm": "System.Runtime.InteropServices.JavaScript.wasm",
-      "System.Runtime.6l0e8qqwg5.wasm": "System.Runtime.wasm",
+      "System.Runtime.lvjoicewx3.wasm": "System.Runtime.wasm",
       "System.Text.Encodings.Web.z5osepan0o.wasm": "System.Text.Encodings.Web.wasm",
       "System.Text.Json.ggaeq4lppa.wasm": "System.Text.Json.wasm",
       "System.Text.RegularExpressions.pjhal65ko1.wasm": "System.Text.RegularExpressions.wasm",
       "System.Web.HttpUtility.vm548noc3p.wasm": "System.Web.HttpUtility.wasm",
       "System.Private.CoreLib.vvk9o1wyar.wasm": "System.Private.CoreLib.wasm",
-      "SudokuApp.63hetqh97q.wasm": "SudokuApp.wasm",
+      "SudokuApp.qfruzh4s1y.wasm": "SudokuApp.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.l1ds2rhypd.js": "dotnet.native.js",
       "dotnet.native.etgrtk5jba.wasm": "dotnet.native.wasm",
@@ -94,12 +94,12 @@
       "System.Net.Http.j6guqjmecm.wasm": "sha256-lezezzHnWqGVQQpDbN06YjTzTH9YlLQuXeEoKpJLR10=",
       "System.Net.Primitives.gvb0nn85ci.wasm": "sha256-HC+GjXoVjTUxRHH2pMX1w5YqevyeWekWnm0EVk+lJnY=",
       "System.Private.Uri.fh5hjd5vb7.wasm": "sha256-/XI2d0quTK6yLQFJSHPfENMI6oL56IXBfK07nmNcTAg=",
-      "System.Runtime.6l0e8qqwg5.wasm": "sha256-hrVQ/TPjuxuaOusLZg1cBnj3ag05hRY1VEZ1k4tnBaQ=",
+      "System.Runtime.lvjoicewx3.wasm": "sha256-X6MpPqdHXGDwTSjxO2sL7nJ+xDFeSJ99RqHoGBrqovY=",
       "System.Text.Encodings.Web.z5osepan0o.wasm": "sha256-qWRckNgJUXP/8BMc9tmHvES2SMAuHimXyFmWjbXrfM8=",
       "System.Text.Json.ggaeq4lppa.wasm": "sha256-kFm/582j1HOHAbBY4jbPNgF362iHMOMDoTgqIcIrC3k=",
       "System.Text.RegularExpressions.pjhal65ko1.wasm": "sha256-VdTVx7BqfLgxpexvMTkSI3N233xrnZp5GxwrZM9G28k=",
       "System.Web.HttpUtility.vm548noc3p.wasm": "sha256-hzkgfD6AX7sPkyB6bl6IeIFQKVln7DeYtP1cGLfmCH8=",
-      "SudokuApp.63hetqh97q.wasm": "sha256-AoMFqfzglMQB84GxmkcMLtHKykj+PHdapOkB5ZMvynY="
+      "SudokuApp.qfruzh4s1y.wasm": "sha256-Zg0A9m0XsEIRxjBBNOWB3H+O3MgxDYY6GcGG0t+CjKM="
     }
   },
   "cacheBootResources": true,

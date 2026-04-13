@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<title>Work Dashboard</title>
+<link rel="icon" type="image/png" href="favicon-work.png"/>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,12 +15,35 @@
 <script>
     function addKeyboardListener(dotnetHelper) {
         document.addEventListener('keydown', function (e) {
-            // 방향키 스크롤 방지
             if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) {
                 e.preventDefault();
             }
             dotnetHelper.invokeMethodAsync('HandleKeyPress', e.key);
         });
+    }
+
+    // ESC 위장 기능
+    function addEscapeListener() {
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                disguise();
+            }
+        });
+
+        // 창 포커스 잃으면 자동 위장
+        window.addEventListener('blur', function () {
+            disguise();
+        });
+    }
+
+    function disguise() {
+        document.getElementById('sudoku-app').style.display = 'none';
+        document.getElementById('fake-work').style.display = 'block';
+    }
+
+    function undisguise() {
+        document.getElementById('sudoku-app').style.display = 'block';
+        document.getElementById('fake-work').style.display = 'none';
     }
 </script>
 <body>
