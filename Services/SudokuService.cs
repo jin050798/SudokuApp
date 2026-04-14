@@ -112,14 +112,56 @@ namespace SudokuApp.Services
 
             var rng = new Random();
             int removed = 0;
-            while (removed < remove)
+            var cells = Enumerable.Range(0, 81)
+                          .OrderBy(_ => rng.Next())
+                          .Select(i => (r: i / 9, c: i % 9))
+                          .ToList();
+            foreach (var (r, c) in cells)
             {
-                int r = rng.Next(9);
-                int c = rng.Next(9);
+                if (removed >= remove) break;
                 if (board[r, c] == 0) continue;
+
+                int backup = board[r, c];
                 board[r, c] = 0;
+
+                if (!HasUniqueSolution(board))
+                {
+                    board[r, c] = backup; // 유일해 아니면 되돌리기
+                    continue;
+                }
+
                 removed++;
             }
+        }
+
+        private bool HasUniqueSolution(int[,] board)
+        {
+            int count = 0;
+            CountSolutions(CopyBoard(board), ref count);
+            return count == 1;
+        }
+
+        private void CountSolutions(int[,] board, ref int count)
+        {
+            if (count > 1) return; // 2개 이상이면 조기 종료
+
+            for (int r = 0; r < 9; r++)
+            {
+                for (int c = 0; c < 9; c++)
+                {
+                    if (board[r, c] != 0) continue;
+
+                    for (int num = 1; num <= 9; num++)
+                    {
+                        if (!IsValid(board, r, c, num)) continue;
+                        board[r, c] = num;
+                        CountSolutions(board, ref count);
+                        board[r, c] = 0;
+                    }
+                    return;
+                }
+            }
+            count++; // 완성된 풀이 발견
         }
 
         private bool IsValid(int[,] board, int row, int col, int num)
